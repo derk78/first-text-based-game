@@ -40,9 +40,18 @@ class Character:
             self.stats["Strength"] = 10
             self.stats["Agility"] = 15
             self.stats["Magic"] = 5
+        elif self.char_class == "Happy":
+            self.stats["Strength"] = 100
+            self.stats["Agility"] = 100
+            self.stats["Magic"] = 100
 
     def show_stats(self):
         """Displays the character's stats and inventory."""
+        # for char in self.name:
+        #     if char == "Misaka":
+        #         self.stats["Strength"] = 100
+        #         self.stats["Agility"] = 100
+        #         self.stats["Magic"] = 100
         print(f"\n{self.name} the {self.char_class} - Stats:")
         print(f"Level: {self.level}")
         for stat, value in self.stats.items():
@@ -58,6 +67,8 @@ class Character:
             damage = base_damage + self.stats["Magic"]
         elif self.char_class == "Rogue":
             damage = base_damage + self.stats["Agility"]
+        elif self.char_class == "Happy":
+            damage = base_damage + self.stats["Strength", "Magic", "Agility"]
         return damage
 
     def defend(self):
@@ -87,7 +98,12 @@ class Character:
         if self.experience >= 10:  # Example level-up threshold
             self.level_up()
             self.experience = 0  # Reset experience after leveling up
-
+class Item:
+    def __init__(self, item, rank):
+        self.attribute = item
+        
+        elixor = ("Elixor, level upper.")
+        
 # Monster class with varying difficulty levels
 class Monster:
     """
@@ -106,7 +122,7 @@ class Monster:
             "Strength": 5 * rank,
             "HP": 20 * rank
         }
-        self.drop_item = random.choice(["Potion", "Elixir", "Magic Scroll"]) if rank > 1 else None
+        self.drop_item = random.choice([getattr(Item, elixor)]) if rank > 1 else None
 
     def attack(self, player_strength):
         """
@@ -205,7 +221,7 @@ class Location:
         """Selects and displays a random ending from possible endings."""
         ending = random.choice(self.possible_endings)
         print(f"\nEnding: {ending}")
-
+        
 # Main Game Class
 class Game:
     """
@@ -219,6 +235,17 @@ class Game:
         """
         self.player = player
         self.locations = {
+            "Roanapur": Location(
+                "Roanapur",
+                "Run into the local port mafia who don't look happy.",
+                "The leader of the Port Mafia comes out to have talk with you personally.",
+                ["Elixor", "Potion"],
+                [
+                    "Get into a shoot out with the Port Mafia but remember you have an RPG in your glove box, and you come out on top.",
+                    "Get into a one sided shoot out with the Port Mafia. You die.",
+                    "Get folded like a pancake by the leader of the mafia."
+                ]
+            ),
             "Dragon's Lair": Location(
                 "Dragon's Lair",
                 "A terrifying cave filled with smoke and the scent of fire.",
@@ -326,6 +353,8 @@ class Game:
         except (IndexError, ValueError):
             print("Invalid choice. Try again.")
             self.explore()
+            
+    
 
     def battle(self, monster, action):
         """
@@ -373,7 +402,7 @@ def main():
     """
     name = input("Enter your character's name: ")
     char_class = input("Choose your class (Warrior, Mage, Rogue): ").capitalize()
-    if char_class not in ["Warrior", "Mage", "Rogue"]:
+    if char_class not in ["Warrior", "Mage", "Rogue", "Happy"]:
         print("Invalid class. Defaulting to Warrior.")
         char_class = "Warrior"
 
