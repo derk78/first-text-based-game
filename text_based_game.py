@@ -100,9 +100,10 @@ class Character:
             self.experience = 0  # Reset experience after leveling up
 class Item:
     def __init__(self, item, rank):
-        self.attribute = item
+        self.item = item
         
-        elixor = ("Elixor, level upper.")
+        item1 = Item("Elixor, level upper")
+        item2 = Item("Potion, for healing")
         
 # Monster class with varying difficulty levels
 class Monster:
@@ -122,7 +123,7 @@ class Monster:
             "Strength": 5 * rank,
             "HP": 20 * rank
         }
-        self.drop_item = random.choice([getattr(Item, elixor)]) if rank > 1 else None
+        self.drop_item = random.choice("Potion", "Magic Scroll") if rank > 1 else None
 
     def attack(self, player_strength):
         """
